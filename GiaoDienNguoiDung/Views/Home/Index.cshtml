@@ -1,0 +1,195 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model HomeViewModel
+
+<style>
+    .carousel {
+    height: 33vh; /* Gói gọn trong 1/3 chiều cao màn hình */
+    overflow: hidden;
+    background-color: #f8f9fa; /* Màu nền dễ nhìn (tùy chọn) */
+    }
+
+    .carousel-inner,
+    .carousel-item {
+    height: 100%;
+    }
+
+    .carousel-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain; /* Hiển thị toàn bộ ảnh, không cắt */
+    object-position: center;
+    }
+
+    .carousel-caption {
+    padding: 1rem;
+    border-radius: 10px;
+    }
+
+    .carousel-caption h3, .carousel-caption p {
+    color: white;
+    }
+</style>
+<div>
+    <div id="carouselExampleInterval" class="carousel slide row px-lg-5 m-lg-4 m-sm-0 px-sm-0" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <img src="~/img/slide/pexels-aven-chi-2152145613-32046660.jpg" class="d-block w-100" alt="Ảnh 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 class="text-uppercase fw-bold">Khách sạn sang trọng</h3>
+                    <p>Trải nghiệm nghỉ dưỡng đẳng cấp giữa lòng thành phố</p>
+                </div>
+            </div>
+            <div class="carousel-item" data-bs-interval="2000">
+                <img src="~/img/slide/pexels-nimitclix-32045722.jpg" class="d-block w-100" alt="Ảnh 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h3 class="text-uppercase fw-bold">Phòng nghỉ tiện nghi</h3>
+                    <p>Đầy đủ tiện nghi cho kỳ nghỉ tuyệt vời</p>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <img src="~/img/slide/pexels-quy-hoang-251118521-32100819.jpg" class="d-block w-100" alt="Slide">
+            </div>
+            <div class="carousel-item">
+                <img src="~/img/slide/pexels-tortrakool-32090609.jpg" class="d-block w-100" alt="Slide">
+            </div>
+            <div class="carousel-item">
+                <img src="~/img/slide/pexels-tuyen-hoang-2152120523-32077557.jpg" class="d-block w-100" alt="Slide">
+            </div>
+            <div class="carousel-item">
+                <img src="~/img/slide/pexels-userpascal-32064653.jpg" class="d-block w-100" alt="Slide">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+    </div>
+
+    <form method="post" asp-action="GetHotelByDate" data-ajax-method="post" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#HotelList" class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0" style="">
+        <div class="row p-0 py-6 mx-0 ">
+            <div class="col-12 col-md-5 offset-md-1">
+                <div class="form-group">
+                    <label>Ngày nhận phòng</label>
+                    <input asp-for="CheckInDate" type="date" class="form-control" name="CheckInDate" id="checkin" required>
+                </div>
+            </div>
+            <div class="col-12 col-md-5">
+                <div class="form-group">
+                    <label>Ngày trả phòng</label>
+                    <input asp-for="CheckOutDate" type="date" class="form-control" name="CheckOutDate" id="checkin" required>
+                </div>
+            </div>
+            <div class="col-8 col-md-5 offset-md-1">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary mt-3">Tìm kiếm</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div id="HotelList" class="row px-lg-5 m-lg-4 m-sm-0 px-sm-0">
+    @if (Model?.HotelList != null && Model.HotelList.Any())
+    {
+        var index = 0;
+        foreach (var hotel in Model.HotelList)
+        {
+            var modalId = $"hotelModal{index}";
+            <div class="col mb-4">
+                <div class="card h-100" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#@modalId">
+                    <img src="@hotel.ImageUrl" class="card-img-top w-100" style="border-radius: 10px" alt="@hotel.Name" />
+                    <div class="card-body">
+                        <h5 class="card-title">@hotel.Name</h5>
+                        <p class="card-text">@hotel.Description</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="text-body-secondary">Giá: @hotel.Price</span>
+                        @if (Model.CheckInDate >= DateOnly.FromDateTime(DateTime.Now))
+                        {
+                            if (hotel.IsAvailable)
+                            {
+                                <a 
+                                    asp-controller="Booking"
+                                       asp-action="FinalizeBooking"
+                                       asp-route-hotelId="@hotel.Id" 
+                                    asp-route-checkInDate="@Model.CheckInDate"
+                                    asp-route-checkOutDate="@Model.CheckOutDate"
+                                    asp-route-nights="@Model.Nights"
+                                    class="btn btn-primary form-control mt-2">Đặt phòng</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-secondary form-control mt-2" disabled>Hết phòng</a>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@modalId-Label" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="@modalId-Label">Chi tiết khách sạn - @hotel.Name</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                            </div>
+                            <div class="modal-body">
+                                <img src="@hotel.ImageUrl" class="img-fluid mb-3" alt="@hotel.Name" />
+                                <div class="row">
+                                    <div class="col-12 col-md-5">
+                                        @if (hotel.HotelAmentity != null && hotel.HotelAmentity.Any())
+                                        {
+                                            <p><strong>Tiện nghi:</strong></p>
+                                            <ul>
+                                                @foreach (var amenity in hotel.HotelAmentity)
+                                                {
+                                                    <li>@amenity.Name</li>
+                                                }
+                                            </ul>
+                                        }
+                                        else
+                                        {
+                                            <p>Không có thông tin tiện nghi.</p>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <a href="#" class="btn btn-primary">Đặt phòng ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             index++; 
+        }
+    }
+    else
+    {
+        <p>Không có khách sạn nào hiển thị!</p>
+    }
+</div>
+
+</div>
+@section scripts {
+    <script>
+        function LoadHotelList(){
+            $('.spinner').show();
+            var data = {
+                checkInDate: $('#CheckInDate').val(),
+                nights: $('#Nights').val(),
+            };
+
+            $.ajax({
+                type: "POST"
+            })
+        }
+    </script>
+}

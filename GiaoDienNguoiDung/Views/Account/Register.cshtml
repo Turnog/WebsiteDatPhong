@@ -1,0 +1,76 @@
+﻿@model RegisterViewModel
+
+<div class="container  pt-5">
+    <div class="card shadow border">
+        <div class="card-header bg-success bg-gradient ms-0 py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white py-2">Đăng ký</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <section>
+                        <form method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Name" class="form-control border shadow" aria-required="true" />
+                                <label asp-for="Name" class="form-label">Họ và tên</label>
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Email" class="form-control border shadow" aria-required="true" />
+                                <label asp-for="Email" class="form-label">Email</label>
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Password" class="form-control border shadow" aria-required="true" />
+                                <label asp-for="Password" class="form-label">Mật khẩu</label>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="ConfirmPassword" class="form-control border shadow" aria-required="true" />
+                                <label asp-for="ConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="PhoneNumber" class="form-control border shadow" aria-required="true" />
+                                <label asp-for="PhoneNumber" class="form-label">Số điện thoại</label>
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select asp-for="Role" asp-items="@Model.RoleList" class="form-control">
+                                    <option value="" disabled selected>---</option>
+                                </select>
+                                <label asp-for="Role" class="form-label">Bạn là?</label>
+                                
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-success btn-lg w-100 shadow">Đăng ký</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var hasError = '@(!ViewData.ModelState.IsValid)';
+            if (hasError === 'True') {
+                var myModal = new bootstrap.Modal(document.getElementById('validationModal'));
+                myModal.show();
+            }
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NghiepVu.Entities.Booking>
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-primary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Danh sách các đặt phòng</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+
+        <div class="row pb-3">
+            <div class="col-6 offset-6 text-end">
+                <a asp-controller="Booking" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle">Thêm mới thông tin đặt phòng</i>
+                </a>
+            </div>
+        </div>
+
+        <table id="tblBookings" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Số định danh</th>
+                    <th>Tên người đặt phòng</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày đặt phòng</th>
+                    <th>Ngày nhận phòng</th>
+                    <th>Ngày trả phòng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+               @*  @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td>@item.Email</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Status</td>
+                        <td>@item.BookingDate</td>
+                        <td>@item.CheckInDate</td>
+                        <td>@item.CheckOutDate</td>
+                        <td class="w-100 btn-group" role="group">
+                            <a asp-controller="Booking" asp-action="Update" asp-route-bookingId="@item.Id" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Sửa</a>
+                            <a asp-controller="Booking" asp-action="Delete" asp-route-bookingId="@item.Id" class="btn btn-danger"><i class="bi bi-trash3"></i>Xoá</a>
+                        </td>
+                    </tr>
+                } *@
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

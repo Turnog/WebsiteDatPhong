@@ -1,0 +1,49 @@
+﻿@model IEnumerable<NghiepVu.Entities.HotelNumber>
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-primary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Danh sách phòng của khách sạn</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+
+        <div class="row pb-3">
+            <div class="col-6 offset-6 text-end">
+                <a asp-controller="HotelNumber" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle">Thêm mới số phòng</i>
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Số phòng</th>
+                    <th>Tên khách sạn</th>
+                    <th>Chi tiết</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Hotel_Number</td>
+                        <td>@item.Hotel.Name</td>
+                        <td>@item.SpecialDetails</td>
+                        <td class="w-100 btn-group" role="group">
+                            <a asp-controller="HotelNumber" asp-action="Update" asp-route-hotelNumberId="@item.Hotel_Number" class="btn btn-primary"><i class="bi bi-pencil-square"></i>Sửa</a>
+                            <a asp-controller="HotelNumber" asp-action="Delete" asp-route-hotelNumberId="@item.Hotel_Number" class="btn btn-danger"><i class="bi bi-trash3"></i>Xoá</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+

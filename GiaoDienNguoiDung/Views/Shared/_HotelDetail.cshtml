@@ -1,0 +1,45 @@
+﻿@using NghiepVu.Entities
+@model Hotel
+
+@if (Model != null)
+{
+    <p>Chi Tiết Thông Tin Khách Sạn</p>
+    <!-- Thêm nội dung chi tiết tại đây -->
+    <div class="row">
+        <div class="col-12 col-md-5">
+            <img class="w-100" style="border-radius: 10px" src="@Model.ImageUrl" />
+        </div>
+        <div class="col-12 col-md-7">
+            <div class="row p-2">
+                <div class="col-12">
+                    <p class="card-title"><strong>@Model.Name</strong></p>
+                    <p class="card-text"><strong>Mô tả:</strong> @Model.Description</p>
+                    @if (Model.HotelAmentity != null && Model.HotelAmentity.Count() > 0)
+                    {
+                        <p>Dịch vụ khách sạn</p>
+                        <ul>
+                            @foreach (var item in Model.HotelAmentity)
+                            {
+                                <li>@item.Name</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+            <div class="row col-12">
+                <span class="text-end p-0 pt-3 m-0">
+                    <span><strong>Số người tối đa:</strong> @Model.Occupancy người</span><br />
+                    <span style="color: #3C0E69" class="font-weight-bold pt-1">
+                        <span>
+                            $@Model.Price
+                        </span>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Không Có Thông Tin Khách Sạn Để Hiển Thị</p>
+}

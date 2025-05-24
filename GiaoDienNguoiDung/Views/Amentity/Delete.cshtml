@@ -1,0 +1,79 @@
+﻿@model GiaoDienNguoiDung.Models.AmentityViewModel
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-primary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Xoá thông tin tiện nghi của phòng</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <form method="post" class="row">
+            <input hidden asp-for="Amentity.Id" />
+            <div class="p-3">
+                <div class="form-floating py-2 col-12">
+                    <input disabled asp-for="Amentity.Name" class="form-control border shadow" />
+                    <label asp-for="Amentity.Name" class="ms-2">Tên tiện nghi *</label>
+                    <span asp-validation-for="Amentity.Name" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <input disabled asp-for="Amentity.Description" class="form-control border shadow" />
+                    <label asp-for="Amentity.Description" class="ms-2">Mô tả *</label>
+                    <span asp-validation-for="Amentity.Description" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <select disabled class="form-control" asp-for="@Model.Amentity.HotelId" asp-items="@Model.HotelList">
+                        <option disabled selected>Chọn khách sạn</option>
+                    </select>
+                    <label asp-for="Amentity.HotelId" class="ms-2">Khách sạn *</label>
+                    <span asp-validation-for="Amentity.HotelId" class="text-danger"></span>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-check-circle">Xác nhận</i>
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Amentity" asp-action="Index" class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle">Huỷ</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+<!-- Modal hiển thị lỗi -->
+<div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="validationModalLabel">Lỗi nhập liệu</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                Vui lòng nhập đầy đủ thông tin!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var hasError = '@(!ViewData.ModelState.IsValid)';
+            if (hasError === 'True') {
+                var myModal = new bootstrap.Modal(document.getElementById('validationModal'));
+                myModal.show();
+            }
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

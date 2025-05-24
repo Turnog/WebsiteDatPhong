@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GiaoDienNguoiDung</title>
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.1/css/dataTables.dataTables.min.css"/>
+    <link rel="stylesheet" href="/chart/dist/locales/apexcharts.css" />
+
+    <link rel="stylesheet" href="~/GiaoDienNguoiDung.styles.css" asp-append-version="true" />
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .main-layout {
+            display: flex;
+            height: 100vh;
+            transition: all 0.3s;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            padding: 1rem;
+            transition: all 0.3s;
+        }
+
+            .sidebar.collapsed {
+                margin-left: -250px;
+            }
+
+        .content-area {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            transition: margin-left 0.3s;
+        }
+
+        .toggle-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+        }
+
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-layout">
+        <partial name="_LoginRegisterPartial" />
+        <nav id="sidebar" class="sidebar d-flex flex-column">
+            <h5 class="mb-4">Đặt phòng khách sạn</h5>
+            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+            <hr />
+            <h6 class="text-muted">Quản lý thông tin</h6>
+            <a class="nav-link text-dark" asp-controller="Hotel" asp-action="Index">Hotel</a>
+            <a class="nav-link text-dark" asp-controller="HotelNumber" asp-action="Index">Phòng</a>
+            <a class="nav-link text-dark" asp-controller="Amentity" asp-action="Index">Tiện nghi</a>
+            <a class="nav-link text-dark" asp-controller="Booking" asp-action="Index">Đặt phòng</a>
+        </nav>
+        <div class="content-area">
+            <div class="content-wrapper">
+                <button id="toggleSidebar" class="toggle-btn" title="Ẩn/hiện menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <partial name="_Notification" />
+                @RenderBody()
+
+                <footer class="border-top mt-4 pt-3 text-muted">
+                    &copy; 2025 - GiaoDienNguoiDung - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </footer>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/2.3.1/js/dataTables.min.js"></script>
+    <script src="/chart/dist/locales/apexcharts.css"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @* khai báo jquery ajax *@
+    <script src="~/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script>
+        const toggleBtn = document.getElementById("toggleSidebar");
+        const sidebar = document.getElementById("sidebar");
+
+        toggleBtn.addEventListener("click", function () {
+            sidebar.classList.toggle("collapsed");
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
